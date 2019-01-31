@@ -2,23 +2,25 @@
 abstract class Lesson
 {
 	private $duration;
-	private $costStrategy;
+	public $costStrategy;
 	function __construct($duration,Coststrategy $strategy)
 	{
 		$this->duration = $duration;
 		$this->costStrategy = $strategy;
+		//var_dump($strategy);die();
 	}
-	function cost()
+	public function cost()
 	{
 		return $this->costStrategy->cost($this);
 	}
-	function getDuration()
+	public function getDuration()
 	{
 		return $this->duration;
 	}
 }
 class Lecture extends Lesson{}
 class Seminar extends Lesson{}
+
 abstract class CostStrategy 
 {
 	abstract function cost(Lesson $lessons);
@@ -26,29 +28,32 @@ abstract class CostStrategy
 }
 class TimeCostStrategy extends CostStrategy
 {
-	function cost(Lesson $lesson)
+	public function cost(Lesson $lesson)
 	{
 		return $lesson->getDuration()*5;
 	}
-	function chargeType()
+	public function chargeType()
 	{
-		return "Почасовая оплата"ж
+		return "Почасовая оплата";
 	}
 }
 class FixedCostStrategy extends Coststrategy
 {
-	function cost(Lesson $lesson)
+	public function cost(Lesson $lesson)
 	{
 		return 30;
 	}
-	function chargeType()
+	public function chargeType()
 	{
 		return "Фиксированная ставка";
 	}
 }
 $lessons[] = new Seminar(4,new TimeCostStrategy);
-$lessons[] = new Seminar(4,new FixedCostStrategy);
+$lessons[] = new Lecture(4,new FixedCostStrategy);
 foreach ($lessons as $lesson) {
-	echo "Плата за занятие $lesson->cost() <br/>";
-	echo "Тип оплаты $lesson->chargeType() <br/>";
+	/*echo '<pre>';
+	var_dump(get_class_methods($lesson));*/
+	echo "Плата за занятие ".$lesson->cost().'<br/>';
+	echo "Тип оплаты ".$lesson->costStrategy->chargeType().'<br/>';
+	//echo "Тип оплаты $lesson->chargeType() <br/>";
 }
