@@ -13,3 +13,5 @@ function firstFunc(firstClass $secondClassObject)
 }
 $secObj = new secondClass();
 firstFunc($secObj);
+?>
+<a href="tg://msg?text='my message'&to=<79696105649>">Telegram</a>
